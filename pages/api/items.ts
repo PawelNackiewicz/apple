@@ -14,7 +14,7 @@ const cors = initMiddleware(
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Facility[]>
+  res: NextApiResponse<string[]>
 ) {
   await cors(req, res);
   res.status(200).json(items);
