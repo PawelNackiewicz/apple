@@ -1,6 +1,7 @@
 import { Dialog } from "@reach/dialog";
 import "@reach/dialog/styles.css";
-import { useState } from "react";
+import { useContext } from "react";
+import { ThemeContext, ThemeData } from "../pages/_app";
 
 interface ModalProps {
   showDialog: boolean;
@@ -8,28 +9,36 @@ interface ModalProps {
 }
 
 export function Modal({ showDialog, closeDialog }: ModalProps) {
-  const [backgroundColor, setBackgroundColor] = useState("green");
+  const [, setTheme] = useContext(ThemeContext);
 
-  const changeBackgroundColor = () => {
-    const colors = ["orange", "red", "gray", "blue", "green"];
-    setBackgroundColor(colors[Math.floor(colors.length * Math.random())]);
+  const handleClick = (color: ThemeData) => {
+    setTheme(color);
   };
 
   return (
     <Dialog
       isOpen={showDialog}
       onDismiss={closeDialog}
-      className="max-w-lg w-full flex justify-center"
-      style={{ background: backgroundColor }}
+      className="max-w-xs w-full flex flex-col justify-center"
+      aria-label="dialog"
     >
+      <p className="text-center font-bold uppercase">Select theme</p>
+      <div className="w-full flex justify-between px-10">
+        <button
+          className="bg-red-600 hover:bg-red-700 text-white font-bold p-2 px-4 rounded my-4"
+          onClick={() => handleClick("red")}
+        />
+        <button
+          className="bg-green-600 hover:bg-green-700 text-white font-bold p-2 px-4 rounded my-4"
+          onClick={() => handleClick("green")}
+        />
+        <button
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold p-2 px-4 rounded my-4"
+          onClick={() => handleClick("blue")}
+        />
+      </div>
       <button
-        className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded mx-4"
-        onClick={changeBackgroundColor}
-      >
-        <span aria-hidden>new color</span>
-      </button>
-      <button
-        className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+        className="bg-red-600 hover:bg-red-700 text-white font-bold rounded"
         onClick={closeDialog}
       >
         <span aria-hidden>close</span>

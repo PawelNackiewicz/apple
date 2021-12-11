@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Layout } from "../components/Layout";
 import { Modal } from "../components/Modal";
+import { ThemeContext } from "./_app";
 
 const Home: NextPage = () => {
   console.log("render main component");
@@ -10,6 +11,7 @@ const Home: NextPage = () => {
   const [showDialog, setShowDialog] = useState(false);
   const openDialog = () => setShowDialog(true);
   const closeDialog = () => setShowDialog(false);
+  const [theme] = useContext(ThemeContext);
 
   useEffect(() => {
     window.sessionStorage.setItem("clickCount", `${count}`);
@@ -25,7 +27,7 @@ const Home: NextPage = () => {
       <div className="flex flex-col justify-center items-center">
         <button
           onClick={handleClick}
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className={`bg-${theme}-600 hover:bg-${theme}-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
         >
           Click me 👋
         </button>
@@ -33,12 +35,12 @@ const Home: NextPage = () => {
         <p>rounding is equal {Math.floor(count / 10)} 💣</p>
         <button
           onClick={openDialog}
-          className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className={`bg-${theme}-600 hover:bg-${theme}-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
         >
           Open dialog 😈
         </button>
+        <Modal showDialog={showDialog} closeDialog={closeDialog} />
       </div>
-      <Modal showDialog={showDialog} closeDialog={closeDialog} />
     </Layout>
   );
 };
